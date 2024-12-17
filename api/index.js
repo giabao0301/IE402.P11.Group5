@@ -6,6 +6,8 @@ import authRouter from "./routes/auth.route.js";
 import listingRouter from "./routes/listing.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
+import cloudinary from "cloudinary";
+import cors from "cors";
 dotenv.config();
 
 mongoose
@@ -25,6 +27,8 @@ app.use(express.json());
 
 app.use(cookieParser());
 
+app.use(cors());
+
 app.listen(3000, () => {
   console.log("Server is running on port 3000!");
 });
@@ -35,8 +39,30 @@ app.use("/api/listing", listingRouter);
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
+cloudinary.config({
+  cloud_name: "dmridctuc", // Replace with your Cloudinary cloud name
+  api_key: "362635658294447", // Replace with your Cloudinary API key
+  api_secret: "k1cwb1XvGqaSTIysCzKIzgvoI8w", // Replace with your Cloudinary API secret
+});
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
+
+app.post("/delete-image", async (req, res) => {
+  const { publicId } = req.body;
+
+  if (!publicId) {
+    return res.status(400).json({ error: "Missing publicId" });
+  }
+
+  try {
+    const result = await cloudinary.uploader.destroy(publicId);
+    res.status(200).json({ success: true, result });
+  } catch (error) {
+    console.error("Error deleting image:", error);
+    res.status(500).json({ error: "Failed to delete image" });
+  }
 });
 
 app.use((err, req, res, next) => {

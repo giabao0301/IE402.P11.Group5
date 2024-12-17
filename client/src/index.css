@@ -1,7 +1,19 @@
+@import "https://js.arcgis.com/4.31/@arcgis/core/assets/esri/themes/dark/main.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body{
-    background-color: rgb(241, 245, 241);
+body {
+  background-color: rgb(241, 245, 241);
+}
+
+#root,
+html,
+body {
+  margin: 0;
+}
+
+arcgis-map {
+  display: block;
+  height: 100vh;
 }
