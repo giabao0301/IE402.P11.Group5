@@ -15,6 +15,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "dompurify": "^3.2.3",
     "firebase": "^10.3.1",
+    "ie402.p11.group5": "file:..",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",

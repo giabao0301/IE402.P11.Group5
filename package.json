@@ -4,8 +4,8 @@
   "description": "IE402.P11 - Group 5",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm install --prefix api && npm install --prefix client && npm run build --prefix client && npm run build --prefix api"
+    "start": "node api/index.js",
+    "build": "npm install --prefix api && npm install --prefix client && npm run build --prefix client"
   },
   "author": "",
   "license": "ISC"
