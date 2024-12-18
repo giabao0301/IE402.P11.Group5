@@ -20,6 +20,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CloudinaryImageUpload from "../components/CloudinaryImageUpload";
 
 export default function Profile() {
   const fileRef = useRef(null);
@@ -32,7 +33,8 @@ export default function Profile() {
   const [userListings, setUserListings] = useState([]);
   const dispatch = useDispatch();
 
-  const notify = () => toast.error("Bạn chưa có bài đăng nào!");
+  const errorNotify = () => toast.error("Bạn chưa có bài đăng nào!");
+  const successNotify = () => toast.success("Cập nhật thành công!");
   // firebase storage
   // allow read;
   // allow write: if
@@ -87,11 +89,11 @@ export default function Profile() {
       const data = await res.json();
       if (data.success === false) {
         dispatch(updateUserFailure(data.message));
+        errorNotify();
         return;
       }
-
       dispatch(updateUserSuccess(data));
-      setUpdateSuccess(true);
+      successNotify();
     } catch (error) {
       dispatch(updateUserFailure(error.message));
     }
@@ -140,7 +142,7 @@ export default function Profile() {
       });
       const data = await res.json();
       if (data.success === false) {
-        notify();
+        errorNotify();
         return;
       }
       setUserListings(data);
@@ -167,19 +169,14 @@ export default function Profile() {
       console.log(error.message);
     }
   };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
         Tài khoản của bạn
       </h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
-          onChange={(e) => setFile(e.target.files[0])}
-          type="file"
-          ref={fileRef}
-          hidden
-          accept="image/*"
-        />
+        <CloudinaryImageUpload ref={fileRef} hidden />
         <img
           onClick={() => fileRef.current.click()}
           src={formData.avatar || currentUser.avatar}
@@ -238,7 +235,7 @@ export default function Profile() {
           disabled={loading}
           className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80"
         >
-          {loading ? "Loading..." : "Cập nhật"}
+          {loading ? "Đang cập nhật..." : "Cập nhật"}
         </button>
         <Link
           className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95"
@@ -250,36 +247,37 @@ export default function Profile() {
       <div className="flex justify-between mt-5">
         <span
           onClick={handleDeleteUser}
-          className="text-red-700 cursor-pointer"
+          className="bg-red-700 text-white px-4 py-2 rounded-lg cursor-pointer"
         >
           Xóa tài koản
         </span>
-        <span onClick={handleSignOut} className="text-red-700 cursor-pointer">
+        <span
+          onClick={handleSignOut}
+          className="bg-red-700 text-white px-4 py-2 rounded-lg cursor-pointer"
+        >
           Đăng xuất
         </span>
       </div>
 
-      <p className="text-red-700 mt-5">{error ? error : ""}</p>
-      <p className="text-green-700 mt-5">
-        {updateSuccess ? "User is updated successfully!" : ""}
-      </p>
-
       <div>
-        <button onClick={handleShowListings} className="text-green-700 w-full">
+        <button
+          onClick={handleShowListings}
+          className="text-green-700 w-full text-base"
+        >
           Hiển thị bài đăng của bạn
         </button>
         <ToastContainer />
       </div>
 
       {userListings && userListings.length > 0 && (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 mt-8">
           <h1 className="text-center mt-7 text-2xl font-semibold">
             Bài đăng của bạn
           </h1>
           {userListings.map((listing) => (
             <div
               key={listing._id}
-              className="border rounded-lg p-3 flex justify-between items-center gap-4"
+              className="border rounded-lg p-2 flex justify-between items-center gap-6"
             >
               <Link to={`/listing/${listing._id}`}>
                 <img
@@ -295,15 +293,17 @@ export default function Profile() {
                 <p>{listing.name}</p>
               </Link>
 
-              <div className="flex flex-col item-center">
+              <div className="flex flex-col item-center gap-4">
                 <button
                   onClick={() => handleListingDelete(listing._id)}
-                  className="text-red-700 uppercase"
+                  className="bg-red-700 text-white uppercase p-2 text-sm rounded-lg flex justify-center items-center"
                 >
                   Xóa
                 </button>
                 <Link to={`/update-listing/${listing._id}`}>
-                  <button className="text-green-700 uppercase">Cập nhật</button>
+                  <button className="text-green-700 uppercase text-sm">
+                    Cập nhật
+                  </button>
                 </Link>
               </div>
             </div>

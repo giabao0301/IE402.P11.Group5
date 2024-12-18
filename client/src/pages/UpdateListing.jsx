@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ReactQuill from "react-quill";
 import CloudinaryImageUpload from "../components/CloudinaryImageUpload";
 import NewPropertyMap from "../components/NewPropertyMap";
+import LocationSelector from "../components/LocationSelector";
 
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
@@ -27,6 +28,10 @@ export default function CreateListing() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [description, setDescription] = useState("");
+  const [coordinates, setCoordinates] = useState({
+    longitude: 0,
+    latitude: 0,
+  });
 
   console.log(formData);
 
@@ -92,6 +97,8 @@ export default function CreateListing() {
         },
         body: JSON.stringify({
           ...formData,
+          description: description,
+          longitude: coordinates.longitude,
           userRef: currentUser._id,
         }),
       });
@@ -164,6 +171,14 @@ export default function CreateListing() {
     }
   };
 
+  const saveSelectedAddressHandler = (coordinates, address) => {
+    setCoordinates(coordinates);
+    setFormData((prevState) => ({
+      ...prevState,
+      address: address,
+    }));
+  };
+
   return (
     <main className="p-3 max-w-4xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
@@ -172,7 +187,7 @@ export default function CreateListing() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
-          placeholder="Name"
+          placeholder="Tên bất động sản"
           className="border p-3 rounded-lg"
           id="name"
           maxLength="62"
@@ -181,9 +196,10 @@ export default function CreateListing() {
           onChange={handleChange}
           value={formData.name}
         />
+        <LocationSelector onSaveSelectedAddress={saveSelectedAddressHandler} />
         <input
           type="text"
-          placeholder="Address"
+          placeholder="Địa chỉ"
           className="border p-3 rounded-lg"
           id="address"
           required
@@ -335,6 +351,7 @@ export default function CreateListing() {
             ))}
           </div>
           <NewPropertyMap
+            coordinates={coordinates}
             onSaveSelectedLocation={saveSelectedLocationHandler}
           />
           <button

@@ -40,38 +40,31 @@ export default function Home() {
       {/* top */}
       <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto">
         <h1 className="text-slate-700 font-bold text-3xl lg:text-6xl">
-          Find your next <span className="text-slate-500">perfect</span>
-          <br />
-          place with ease
+          Đăng Tin Bán Nhà Dễ Dàng Và Miễn Phí!
         </h1>
-        <div className="text-gray-400 text-xs sm:text-sm">
-          Sahand Estate is the best place to find your next perfect place to
-          live.
-          <br />
-          We have a wide range of properties for you to choose from.
-        </div>
+
         <Link
           to={"/search"}
-          className="text-xs sm:text-sm text-blue-800 font-bold hover:underline"
+          className="text-center w-32 sm:text-sm bg-slate-200 shadow-md font-bold hover:opacity-70 text-slate-700 px-6 py-4 rounded-lg"
         >
-          Hãy bắt đầu...
+          <div className="text-lg">Bắt đầu</div>
         </Link>
       </div>
 
       {/* listing results for offer, sale and rent */}
 
-      <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10">
+      <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8">
         {rentListings && rentListings.length > 0 && (
           <div className="">
             <div className="my-3">
               <h2 className="text-2xl font-semibold text-slate-600">
-                Recent places for rent
+                Nhà đất bán
               </h2>
               <Link
                 className="text-sm text-blue-800 hover:underline"
                 to={"/search?type=rent"}
               >
-                Show more places for rent
+                Hiển thị thêm
               </Link>
             </div>
             <div className="flex flex-wrap gap-4">
@@ -85,13 +78,13 @@ export default function Home() {
           <div className="">
             <div className="my-3">
               <h2 className="text-2xl font-semibold text-slate-600">
-                Recent places for sale
+                Nhà đất cho thuê
               </h2>
               <Link
                 className="text-sm text-blue-800 hover:underline"
                 to={"/search?type=sale"}
               >
-                Show more places for sale
+                Hiển thị thêm
               </Link>
             </div>
             <div className="flex flex-wrap gap-4">

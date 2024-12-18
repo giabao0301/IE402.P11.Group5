@@ -34,7 +34,7 @@ export default function ListingItem({ listing }) {
           </div>
           <p className="text-slate-500 mt-2 font-semibold ">
             {listing.price}
-            {listing.type === "rent" && " / month"}
+            {listing.type === "rent" && " / tháng"}
           </p>
           <div className="text-slate-700 flex gap-4">
             <div className="font-bold text-xs">{listing.bedrooms} giường</div>

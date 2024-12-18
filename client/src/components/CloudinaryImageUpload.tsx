@@ -3,11 +3,15 @@ import React, { useState } from "react";
 interface CloudinaryImageProps {
   onSaveUploadedImages: (images: string[]) => void;
   showUploadedImages?: boolean;
+  ref?: React.Ref<HTMLInputElement>;
+  hidden?: boolean;
 }
 
 const CloudinaryImageUpload: React.FC<CloudinaryImageProps> = ({
   onSaveUploadedImages,
   showUploadedImages = true,
+  ref,
+  hidden,
 }) => {
   const [images, setImages] = useState<File[]>([]);
   const [uploadedImages, setUploadedImages] = useState<
@@ -110,19 +114,23 @@ const CloudinaryImageUpload: React.FC<CloudinaryImageProps> = ({
   return (
     <div>
       <input
+        ref={ref}
+        hidden={hidden}
         type="file"
         multiple
         accept="image/*"
         onChange={handleFileChange}
         disabled={loading}
       />
-      <button
-        className="bg-green-400 text-white px-4 py-2 rounded mt-4 cursor-pointer hover:opacity-70"
-        onClick={uploadImages}
-        disabled={loading || images.length === 0}
-      >
-        {loading ? "Đang tải ảnh lên..." : "Tải ảnh lên"}
-      </button>
+      {hidden ? null : (
+        <button
+          className="bg-green-400 text-white px-4 py-2 rounded mt-4 cursor-pointer hover:opacity-70"
+          onClick={uploadImages}
+          disabled={loading || images.length === 0}
+        >
+          {loading ? "Đang tải ảnh lên..." : "Tải ảnh lên"}
+        </button>
+      )}
 
       {/* Error Message */}
       {error && <p style={{ color: "red" }}>Error: {error}</p>}

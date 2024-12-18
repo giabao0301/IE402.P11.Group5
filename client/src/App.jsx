@@ -16,6 +16,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Header />
+      <div className="my-16"></div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/upload" element={<CloudinaryImageUpload />} />

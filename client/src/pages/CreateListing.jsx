@@ -5,6 +5,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import NewPropertyMap from "../components/NewPropertyMap";
 import CloudinaryImageUpload from "../components/CloudinaryImageUpload";
+import LocationSelector from "../components/LocationSelector";
 
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
@@ -27,6 +28,10 @@ export default function CreateListing() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [description, setDescription] = useState("");
+  const [coordinates, setCoordinates] = useState({
+    longitude: 0,
+    latitude: 0,
+  });
 
   console.log(formData);
 
@@ -77,6 +82,8 @@ export default function CreateListing() {
         body: JSON.stringify({
           ...formData,
           description: description,
+          longitude: coordinates.longitude,
+          latitude: coordinates.latitude,
           userRef: currentUser._id,
         }),
       });
@@ -109,6 +116,14 @@ export default function CreateListing() {
     }));
   };
 
+  const saveSelectedAddressHandler = (coordinates, address) => {
+    setCoordinates(coordinates);
+    setFormData((prevState) => ({
+      ...prevState,
+      address: address,
+    }));
+  };
+
   return (
     <main className="p-3 max-w-6xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
@@ -118,7 +133,7 @@ export default function CreateListing() {
         <div className="flex flex-col gap-4 flex-1">
           <input
             type="text"
-            placeholder="Name"
+            placeholder="Tên bất động sản"
             className="border p-3 rounded-lg"
             id="name"
             maxLength="100"
@@ -127,9 +142,12 @@ export default function CreateListing() {
             onChange={handleChange}
             value={formData.name}
           />
+          <LocationSelector
+            onSaveSelectedAddress={saveSelectedAddressHandler}
+          />
           <input
             type="text"
-            placeholder="Address"
+            placeholder="Địa chỉ"
             className="border p-3 rounded-lg"
             id="address"
             required
@@ -254,6 +272,7 @@ export default function CreateListing() {
             onSaveUploadedImages={saveUploadedImagesHandler}
           />
           <NewPropertyMap
+            coordinates={coordinates}
             onSaveSelectedLocation={saveSelectedLocationHandler}
           />
           <button

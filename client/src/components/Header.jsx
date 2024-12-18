@@ -23,7 +23,7 @@ export default function Header() {
     }
   }, [location.search]);
   return (
-    <header className="bg-slate-200 shadow-md">
+    <header className="bg-slate-200 shadow-md fixed top-0 left-0 w-full z-50">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to="/">
           <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
@@ -33,7 +33,7 @@ export default function Header() {
         </Link>
         <form
           onSubmit={handleSubmit}
-          className="bg-slate-100 p-3 rounded-lg flex items-center"
+          className="bg-slate-100 p-2 rounded-lg flex items-center"
         >
           <input
             type="text"
@@ -46,7 +46,7 @@ export default function Header() {
             <FaSearch className="text-slate-600" />
           </button>
         </form>
-        <ul className="flex gap-4 items-center">
+        <ul className="flex gap-6 items-center">
           <Link to="/">
             <li className="hidden sm:inline text-slate-700 hover:underline">
               Trang chủ
@@ -60,7 +60,7 @@ export default function Header() {
           <Link to="/profile">
             {currentUser ? (
               <img
-                className="rounded-full h-7 w-7 object-cover"
+                className="rounded-full h-7 w-7 object-cover -mt-2"
                 src={currentUser.avatar}
                 alt="profile"
               />
