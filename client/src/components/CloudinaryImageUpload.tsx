@@ -84,13 +84,16 @@ const CloudinaryImageUpload: React.FC<CloudinaryImageProps> = ({
     );
 
     try {
-      const response = await fetch("http://localhost:3000/delete-image", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ publicId }),
-      });
+      const response = await fetch(
+        "https://ie402-p11-group5.onrender.com//delete-image",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ publicId }),
+        }
+      );
 
       if (response.ok) {
         setUploadedImages((prev) =>
