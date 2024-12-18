@@ -33,6 +33,8 @@ export default function CreateListing() {
     latitude: 0,
   });
 
+  console.log(coordinates);
+
   console.log(formData);
 
   const handleChange = (e) => {
@@ -102,11 +104,10 @@ export default function CreateListing() {
   };
 
   const saveSelectedLocationHandler = (longitude, latitude) => {
-    setFormData((prevState) => ({
-      ...prevState,
+    setCoordinates({
       longitude,
       latitude,
-    }));
+    });
   };
 
   const saveUploadedImagesHandler = (imageUrls) => {

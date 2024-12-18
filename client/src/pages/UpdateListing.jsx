@@ -99,6 +99,7 @@ export default function CreateListing() {
           ...formData,
           description: description,
           longitude: coordinates.longitude,
+          latitude: coordinates.latitude,
           userRef: currentUser._id,
         }),
       });
@@ -115,11 +116,10 @@ export default function CreateListing() {
   };
 
   const saveSelectedLocationHandler = (longitude, latitude) => {
-    setFormData((prevState) => ({
-      ...prevState,
+    setCoordinates({
       longitude,
       latitude,
-    }));
+    });
   };
 
   const saveUploadedImagesHandler = (imageUrls) => {

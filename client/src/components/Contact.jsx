@@ -28,8 +28,8 @@ export default function Contact({ listing }) {
     <>
       {landlord && (
         <div className="flex flex-col gap-2">
-          <p>
-            Liên hệ <span className="font-semibold">{landlord.username}</span>{" "}
+          <p className="my-2">
+            Liên hệ <span className="font-semibold">{landlord.fullname}</span>{" "}
             cho{" "}
             <span className="font-semibold">{listing.name.toLowerCase()}</span>
           </p>
@@ -39,7 +39,7 @@ export default function Contact({ listing }) {
             rows="2"
             value={message}
             onChange={onChange}
-            placeholder="Enter your message here..."
+            placeholder="Nhập tin nhắn..."
             className="w-full border p-3 rounded-lg"
           ></textarea>
           <Link

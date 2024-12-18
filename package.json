@@ -1,0 +1,12 @@
+{
+  "name": "ie402.p11.group5",
+  "version": "1.0.0",
+  "description": "IE402.P11 - Group 5",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm install --prefix api && npm install --prefix client && npm run build --prefix client && npm run build --prefix api"
+  },
+  "author": "",
+  "license": "ISC"
+}
