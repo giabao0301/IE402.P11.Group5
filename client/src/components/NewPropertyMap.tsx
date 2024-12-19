@@ -20,6 +20,7 @@ const NewPropertyMap: React.FC<NewPropertyMapProps> = ({
     onSaveSelectedLocation(longitude, latitude);
   };
 
+  console.log(coordinates);
   const mapDiv = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -40,28 +41,6 @@ const NewPropertyMap: React.FC<NewPropertyMapProps> = ({
     });
 
     if (coordinates?.latitude && coordinates?.longitude) {
-      const markerSymbol = new SimpleMarkerSymbol({
-        style: "circle",
-        color: "red", // Marker color
-        size: "12px", // Marker size
-        outline: {
-          color: "white",
-          width: 1,
-        },
-      });
-
-      // Create a marker graphic
-      const marker = new Graphic({
-        geometry: new Point({
-          longitude: coordinates?.longitude,
-          latitude: coordinates?.latitude,
-        }),
-        symbol: markerSymbol,
-      });
-
-      // Clear existing graphics and add the new marker
-      view.graphics.removeAll();
-      view.graphics.add(marker);
       view.goTo(
         {
           center: [coordinates.longitude, coordinates.latitude],
@@ -114,7 +93,7 @@ const NewPropertyMap: React.FC<NewPropertyMapProps> = ({
     return () => {
       view.destroy(); // Cleanup the view when the component is unmounted
     };
-  }, []);
+  }, [coordinates?.latitude, coordinates?.longitude]);
 
   return <div ref={mapDiv} style={{ height: "512px", width: "100%" }}></div>;
 };
