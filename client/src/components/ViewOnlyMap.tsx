@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
 import Graphic from "@arcgis/core/Graphic";
@@ -24,6 +24,33 @@ const ViewOnlyMap: React.FC<ViewOnlyMapProps> = ({
 }) => {
   const mapDiv = useRef<HTMLDivElement | null>(null);
 
+  interface Listing {
+    name: string;
+    map: string;
+    address: string;
+    description: string;
+    longitude: number;
+    latitude: number;
+    type: string;
+  }
+
+  const [listings, setListings] = useState<Listing[]>();
+  console.log(listings);
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      try {
+        const res = await fetch("/api/listing/get");
+        const data = await res.json();
+        setListings(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchListings();
+  }, []);
+
   useEffect(() => {
     if (!mapDiv.current) return;
 
@@ -38,31 +65,35 @@ const ViewOnlyMap: React.FC<ViewOnlyMapProps> = ({
       zoom: zoom,
     });
 
-    // Add a marker with a custom image icon
-    const pointGraphic = new Graphic({
-      geometry: new Point({
-        longitude,
-        latitude,
-      }),
-      symbol: {
-        type: "picture-marker", // Use a picture as the marker symbol
-        url: iconUrl, // URL of the custom icon
-        width: "32px", // Width of the icon
-        height: "32px", // Height of the icon
-      } as __esri.PictureMarkerSymbolProperties, // Explicit cast to correct type
-      attributes: {
-        name: title, // Title for the popup
-        description: description, // Description for the popup
-      },
-      popupTemplate: {
-        title: "{name}",
-        content: "{description}",
-      },
-    });
+    for (const listing of listings || []) {
+      // Add a marker with a custom image icon
+      const pointGraphic = new Graphic({
+        geometry: new Point({
+          longitude: listing.longitude,
+          latitude: listing.latitude,
+        }),
+        symbol: {
+          type: "picture-marker", // Use a picture as the marker symbol
+          url:
+            listing.type === "sale"
+              ? "https://cdn-icons-png.flaticon.com/512/1206/1206312.png"
+              : "https://cdn-icons-png.flaticon.com/512/1299/1299961.png", // URL of the custom icon
+          width: "32px", // Width of the icon
+          height: "32px", // Height of the icon
+        } as __esri.PictureMarkerSymbolProperties, // Explicit cast to correct type
+        attributes: {
+          name: listing.name, // Title for the popup
+          description: listing.address, // Description for the popup
+        },
+        popupTemplate: {
+          title: "{name}",
+          content: "{description}",
+        },
+      });
 
-    // Add the marker to the map view
-    view.graphics.add(pointGraphic);
-
+      // Add the marker to the map view
+      view.graphics.add(pointGraphic);
+    }
     // Enable clicking on the map for non-graphic locations
     view.on("click", (event) => {
       view.hitTest(event).then((response) => {
@@ -87,7 +118,7 @@ const ViewOnlyMap: React.FC<ViewOnlyMapProps> = ({
     return () => {
       view.destroy(); // Cleanup the map view
     };
-  }, [longitude, latitude, zoom, iconUrl, title, description]);
+  }, [longitude, latitude, zoom, iconUrl, title, description, listings]);
 
   return <div ref={mapDiv} style={{ height: "512px", width: "100%" }}></div>;
 };

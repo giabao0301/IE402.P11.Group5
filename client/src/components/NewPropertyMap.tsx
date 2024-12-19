@@ -10,17 +10,25 @@ import { notInitialized } from "react-redux/es/utils/useSyncExternalStore";
 interface NewPropertyMapProps {
   onSaveSelectedLocation: (longitude: number, latitude: number) => void;
   coordinates?: { longitude: number; latitude: number };
+  title?: string;
+  description?: string;
+  zoom?: number;
+  iconUrl?: string;
 }
 
 const NewPropertyMap: React.FC<NewPropertyMapProps> = ({
   onSaveSelectedLocation,
   coordinates,
+  title,
+  description,
+
+  zoom = 13,
+  iconUrl,
 }) => {
   const locationSelectHandler = (longitude: number, latitude: number) => {
     onSaveSelectedLocation(longitude, latitude);
   };
 
-  console.log(coordinates);
   const mapDiv = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -41,12 +49,32 @@ const NewPropertyMap: React.FC<NewPropertyMapProps> = ({
     });
 
     if (coordinates?.latitude && coordinates?.longitude) {
-      view.goTo(
-        {
-          center: [coordinates.longitude, coordinates.latitude],
+      const pointGraphic = new Graphic({
+        geometry: new Point({
+          longitude: coordinates?.longitude,
+          latitude: coordinates?.latitude,
+        }),
+        symbol: {
+          type: "picture-marker", // Use a picture as the marker symbol
+          url: iconUrl, // URL of the custom icon
+          width: "32px", // Width of the icon
+          height: "32px", // Height of the icon
+        } as __esri.PictureMarkerSymbolProperties, // Explicit cast to correct type
+        attributes: {
+          name: title, // Title for the popup
+          description: description, // Description for the popup
         },
-        { duration: 500 }
-      );
+        popupTemplate: {
+          title: "{name}",
+          content: "{description}",
+        },
+      });
+
+      // Add the marker to the map view
+      view.graphics.add(pointGraphic);
+      view.goTo({
+        center: [coordinates.longitude, coordinates.latitude],
+      });
     }
 
     // Change the cursor to "crosshair" with a dot when hovering over the map

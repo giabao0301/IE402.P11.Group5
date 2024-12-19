@@ -138,7 +138,7 @@ export default function Search() {
             <input
               type="text"
               id="searchTerm"
-              placeholder="Search..."
+              placeholder="Tìm kiếm..."
               className="border rounded-lg p-3 w-full"
               value={sidebardata.searchTerm}
               onChange={handleChange}
@@ -178,7 +178,7 @@ export default function Search() {
             </div>
           </div>
           <div className="flex gap-2 flex-wrap items-center">
-            <label className="font-semibold">Amenities:</label>
+            <label className="font-semibold">Tiện nghi:</label>
             <div className="flex gap-2">
               <input
                 type="checkbox"

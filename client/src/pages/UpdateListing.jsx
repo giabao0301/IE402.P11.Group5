@@ -46,6 +46,10 @@ export default function CreateListing() {
       }
       setFormData(data);
       setDescription(data.description);
+      setCoordinates({
+        longitude: data.longitude,
+        latitude: data.latitude,
+      });
     };
 
     fetchListing();
@@ -116,10 +120,11 @@ export default function CreateListing() {
   };
 
   const saveSelectedLocationHandler = (longitude, latitude) => {
-    setCoordinates({
+    setFormData((prevState) => ({
+      ...prevState,
       longitude,
       latitude,
-    });
+    }));
   };
 
   const saveUploadedImagesHandler = (imageUrls) => {
@@ -354,6 +359,10 @@ export default function CreateListing() {
             ))}
           </div>
           <NewPropertyMap
+            title={formData.name}
+            description={formData.address}
+            zoom={15}
+            iconUrl="https://cdn-icons-png.flaticon.com/512/1206/1206312.png"
             coordinates={coordinates}
             onSaveSelectedLocation={saveSelectedLocationHandler}
           />

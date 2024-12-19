@@ -140,7 +140,11 @@ export default function Listing() {
               longitude={listing.longitude}
               latitude={listing.latitude}
               zoom={15}
-              iconUrl="https://cdn-icons-png.flaticon.com/512/1206/1206312.png"
+              iconUrl={
+                listing.type === "sale"
+                  ? "https://cdn-icons-png.flaticon.com/512/1206/1206312.png"
+                  : "https://cdn-icons-png.flaticon.com/512/1299/1299961.png"
+              }
             />
           </div>
         </div>
