@@ -85,7 +85,7 @@ const CloudinaryImageUpload: React.FC<CloudinaryImageProps> = ({
 
     try {
       const response = await fetch(
-        "https://ie402-p11-group5.onrender.com//delete-image",
+        "https://ie402-p11-group5.onrender.com/delete-image",
         {
           method: "POST",
           headers: {
