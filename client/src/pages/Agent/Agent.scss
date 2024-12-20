@@ -1,0 +1,155 @@
+.agentsPage {
+    .hero {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url('/agents/agents_top.jpeg');
+      background-size: cover;
+      background-position: center;
+      padding: 60px 20px;
+      text-align: center;
+      color: white;
+  
+      h1 {
+        font-size: 36px;
+        margin-bottom: 20px;
+      }
+  
+      p {
+        font-size: 18px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+    }
+  
+    .featuredAgents {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+  
+      h2 {
+        font-size: 28px;
+        margin-bottom: 30px;
+      }
+  
+      .agentCategory {
+        margin-bottom: 40px;
+        transform: translateY(500px);
+    animation: fadeIn 0.6s ease forwards;
+
+    @for $i from 1 through 5 {
+      &:nth-child(#{$i}) {
+        animation-delay: $i * 0.1s;
+      }
+    }
+  
+        .categoryHeader {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
+  
+          h3 {
+            font-size: 24px;
+          }
+  
+          .viewAll {
+            color: #ff4444;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+  
+        .agentGrid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: 20px;
+  
+          .agentCard {
+            background: #7e755e;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s;
+  
+            &:hover {
+              transform: translateY(-5px);
+            }
+  
+            .agentInfo {
+              .agentPhoto {
+                width: 100px;
+                height: 100px;
+                margin-left: 115px;
+                border-radius: 50%;
+                object-fit: cover;
+                margin-bottom: 10px;
+                justify-content: center;
+
+              }
+  
+              h4 {
+                color: #ffffff;
+                margin-bottom: 5px;
+              }
+  
+              p {
+                margin: 5px 0;
+                color: #ffffff;
+  
+                &.category {
+                  font-size: 14px;
+                  color: #ffffff;
+                }
+  
+                &.subtext {
+                  font-size: 14px;
+                  color: #444;
+                }
+              }
+            }
+  
+            .viewProfile {
+              margin-top: 15px;
+              padding: 8px 20px;
+              border: 1px solid #ddd;
+              border-radius: 4px;
+              background: white;
+              cursor: pointer;
+              transition: all 0.2s;
+  
+              &:hover {
+                background: #f0f0f0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .agentsPage {
+      .hero {
+        padding: 40px 20px;
+  
+        h1 {
+          font-size: 28px;
+        }
+  
+        p {
+          font-size: 16px;
+        }
+      }
+  
+      .featuredAgents {
+        .agentGrid {
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+      }
+    }
+  }

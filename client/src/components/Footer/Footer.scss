@@ -1,0 +1,140 @@
+.footer {
+    padding: 40px 0;
+    border-top: 1px solid #eee;
+    font-size: 14px;
+    color: #666;
+  
+    .container {
+      max-width: 1366px;
+      margin: 0 auto;
+      padding: 0 20px;
+  
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+  
+        .social-links {
+          font-size: 25px;
+          display: flex;
+          gap: 15px;
+  
+          a {
+            color: #666;
+            transition: color 0.3s;
+  
+            &:hover {
+              color: #333;
+            }
+          }
+        }
+  
+        .nav-links {
+          display: flex;
+          gap: 20px;
+  
+          a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s;
+  
+            &:hover {
+              color: #333;
+            }
+          }
+        }
+      }
+  
+      .bottom {
+        .sites {
+          margin-bottom: 15px;
+  
+          h4 {
+            margin-bottom: 10px;
+            color: #333;
+          }
+  
+          .site-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+  
+            a {
+              color: #666;
+              text-decoration: none;
+              transition: color 0.3s;
+  
+              &:hover {
+                color: #333;
+              }
+            }
+          }
+        }
+  
+      
+      }
+  
+      .branches {
+        margin-top: 40px;
+        border-top: 1px solid #eee;
+        padding-top: 20px;
+  
+        h3 {
+          color: #333;
+          margin-bottom: 20px;
+          font-size: 18px;
+        }
+  
+        .branch-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 30px;
+          margin-bottom: 30px;
+  
+          .branch {
+            h4 {
+              color: #333;
+              margin-bottom: 10px;
+              font-size: 16px;
+            }
+  
+            p {
+              margin-bottom: 8px;
+              line-height: 1.5;
+              color: #666;
+  
+              &:last-child {
+                margin-top: 15px;
+                color: #888;
+              }
+            }
+          }
+        }
+  
+        .legal {
+          border-top: 1px solid #eee;
+          padding-top: 20px;
+          
+          p {
+            margin-bottom: 8px;
+            color: #888;
+            font-size: 12px;
+            line-height: 1.5;
+          }
+        }
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .footer {
+      .container {
+        .branches {
+          .branch-list {
+            grid-template-columns: 1fr;
+          }
+        }
+      }
+    }
+  }
