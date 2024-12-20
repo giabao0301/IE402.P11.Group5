@@ -105,8 +105,6 @@ export default function CreateListing() {
         body: JSON.stringify({
           ...formData,
           description: description,
-          longitude: coordinates.longitude,
-          latitude: coordinates.latitude,
           userRef: currentUser._id,
         }),
       });

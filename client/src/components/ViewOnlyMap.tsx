@@ -49,7 +49,7 @@ const ViewOnlyMap: React.FC<ViewOnlyMapProps> = ({
   useEffect(() => {
     const fetchListings = async () => {
       try {
-        const res = await fetch("/api/listing/get");
+        const res = await fetch("/api/listing/get?limit=1000");
         const data = await res.json();
         setListings(data);
       } catch (error) {
@@ -107,6 +107,8 @@ const ViewOnlyMap: React.FC<ViewOnlyMapProps> = ({
         graphicsLayer.add(graphic);
       }
     });
+
+    console.log(listings);
 
     for (const listing of listings || []) {
       const pointGraphic = new Graphic({

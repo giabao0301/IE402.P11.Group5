@@ -59,6 +59,10 @@ const NewPropertyMap: React.FC<NewPropertyMapProps> = ({
       zoom: 14,
     });
 
+    const graphicsLayer = new GraphicsLayer();
+    map.add(graphicsLayer);
+
+    // Add point graphic if latitude and longitude are provided
     if (latitude && longitude) {
       const pointGraphic = new Graphic({
         geometry: new Point({
@@ -66,21 +70,17 @@ const NewPropertyMap: React.FC<NewPropertyMapProps> = ({
           latitude: latitude,
         }),
         symbol: {
-          type: "picture-marker", // Use a picture as  the marker symbol
+          type: "picture-marker",
           url:
             type === "sale"
               ? "https://cdn-icons-png.flaticon.com/512/1206/1206312.png"
-              : "https://cdn-icons-png.flaticon.com/512/1299/1299961.png", // URL of the custom icon
-          width: "24px", // Width of the icon
-          height: "24px", // Height of the icon
-          outline: {
-            color: [255, 0, 0, 0.5], // White outline
-            width: 1, // Outline width
-          },
-        } as __esri.PictureMarkerSymbolProperties, // Explicit cast to correct type
+              : "https://cdn-icons-png.flaticon.com/512/1299/1299961.png",
+          width: "24px",
+          height: "24px",
+        } as __esri.PictureMarkerSymbolProperties,
         attributes: {
-          name: title, // Title for the popup
-          description: description, // Description for the popup
+          name: title,
+          description: description,
         },
         popupTemplate: {
           title: "{name}",
@@ -90,10 +90,8 @@ const NewPropertyMap: React.FC<NewPropertyMapProps> = ({
       view.graphics.add(pointGraphic);
     }
 
+    // Add polygons for filtered areas
     if (coordinates?.latitude && coordinates?.longitude) {
-      const graphicsLayer = new GraphicsLayer();
-      map.add(graphicsLayer);
-
       const filteredPolygons = wards.filter(
         (polygon) =>
           polygon.ward === ward &&
@@ -101,51 +99,44 @@ const NewPropertyMap: React.FC<NewPropertyMapProps> = ({
           polygon.province === province
       );
 
-      if (filteredPolygons.length === 0) {
-        return;
-      }
-
-      filteredPolygons.forEach((polygon) => {
-        const graphic = new Graphic({
-          geometry: new Polygon({
-            rings: polygon.rings,
-          }),
-          symbol: polygon.symbol,
-          attributes: {
-            Ward: polygon.ward,
-          },
+      if (filteredPolygons.length > 0) {
+        filteredPolygons.forEach((polygon) => {
+          const graphic = new Graphic({
+            geometry: new Polygon({
+              rings: polygon.rings,
+            }),
+            symbol: polygon.symbol,
+            attributes: {
+              Ward: polygon.ward,
+            },
+          });
+          graphicsLayer.add(graphic);
         });
-        graphicsLayer.add(graphic);
-      });
 
-      // Add the marker to the map view
-      view.goTo({
-        center: [coordinates.longitude, coordinates.latitude],
-      });
+        view.goTo({
+          center: [coordinates.longitude, coordinates.latitude],
+        });
+      }
     }
 
-    // Change the cursor to "crosshair" with a dot when hovering over the map
+    // Change cursor style
     view.container.style.cursor = "crosshair";
 
-    const graphicsLayer = new GraphicsLayer();
-    map.add(graphicsLayer);
-
-    view.on("click", (event) => {
+    // Click handler for adding markers
+    const handleClick = (event: __esri.ViewClickEvent) => {
       const { longitude, latitude } = event.mapPoint;
       locationSelectHandler(longitude, latitude);
 
-      // Create a marker symbol using SimpleMarkerSymbol
       const markerSymbol = new SimpleMarkerSymbol({
         style: "x",
-        color: "red", // Marker color
-        size: "12px", // Marker size
+        color: "red",
+        size: "12px",
         outline: {
           color: "red",
           width: 1,
         },
       });
 
-      // Create a marker graphic
       const marker = new Graphic({
         geometry: new Point({
           longitude: longitude,
@@ -154,21 +145,21 @@ const NewPropertyMap: React.FC<NewPropertyMapProps> = ({
         symbol: markerSymbol,
       });
 
-      // Clear existing graphics and add the new marker
       graphicsLayer.removeAll();
       graphicsLayer.add(marker);
 
-      // Pan to the selected location
       view.goTo(
         {
-          center: [longitude, latitude], // New center
+          center: [longitude, latitude],
         },
         { duration: 500 }
       );
-    });
+    };
+
+    view.on("click", handleClick);
 
     return () => {
-      view.destroy(); // Cleanup the view when the component is unmounted
+      view.destroy(); // Cleanup view
     };
   }, [coordinates?.latitude, coordinates?.longitude]);
 
