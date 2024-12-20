@@ -56,7 +56,7 @@ export default function CreateListing() {
     };
 
     fetchListing();
-  }, []);
+  }, [params.listingId]);
 
   const handleChange = (e) => {
     if (e.target.id === "sale" || e.target.id === "rent") {
@@ -371,10 +371,14 @@ export default function CreateListing() {
             ))}
           </div>
           <NewPropertyMap
+            title={formData.name}
+            description={formData.address}
             district={district}
             ward={ward}
             province={province}
             coordinates={coordinates}
+            longitude={formData.longitude}
+            latitude={formData.latitude}
             onSaveSelectedLocation={saveSelectedLocationHandler}
           />
           <button

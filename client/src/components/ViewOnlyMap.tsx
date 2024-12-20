@@ -9,6 +9,9 @@ import Polygon from "@arcgis/core/geometry/Polygon";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Color from "@arcgis/core/Color";
 import wards from "../data/wards";
+import districts from "../data/districts";
+import "react-toggle/style.css";
+import Toggle from "react-toggle";
 
 interface ViewOnlyMapProps {
   title: string;
@@ -40,7 +43,8 @@ const ViewOnlyMap: React.FC<ViewOnlyMapProps> = ({
   }
 
   const [listings, setListings] = useState<Listing[]>();
-  console.log(listings);
+  const [selectedOption, setSelectedOption] = useState("0");
+  const [showPolygon, setShowPolygon] = useState(false);
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -76,12 +80,17 @@ const ViewOnlyMap: React.FC<ViewOnlyMapProps> = ({
     const graphicsLayer = new GraphicsLayer();
     map.add(graphicsLayer);
 
-    const pointTemplate = {
-      title: "{Ward}",
-      content: "{District}, {Province}",
-    };
+    const pointTemplate =
+      selectedOption === "1"
+        ? { title: "{District}, {Province}", content: "Việt Nam" }
+        : {
+            title: "{Ward}",
+            content: "{District}, {Province}",
+          };
 
-    wards.forEach((polygon) => {
+    const polygons = selectedOption === "1" ? districts : wards;
+
+    polygons.forEach((polygon) => {
       const graphic = new Graphic({
         geometry: new Polygon({
           rings: polygon.rings,
@@ -94,7 +103,9 @@ const ViewOnlyMap: React.FC<ViewOnlyMapProps> = ({
         },
         popupTemplate: pointTemplate,
       });
-      graphicsLayer.add(graphic);
+      if (showPolygon) {
+        graphicsLayer.add(graphic);
+      }
     });
 
     for (const listing of listings || []) {
@@ -104,7 +115,7 @@ const ViewOnlyMap: React.FC<ViewOnlyMapProps> = ({
           latitude: listing.latitude,
         }),
         symbol: {
-          type: "picture-marker", // Use a picture as the marker symbol
+          type: "picture-marker", // Use a picture as  the marker symbol
           url:
             listing.type === "sale"
               ? "https://cdn-icons-png.flaticon.com/512/1206/1206312.png"
@@ -152,9 +163,69 @@ const ViewOnlyMap: React.FC<ViewOnlyMapProps> = ({
     return () => {
       view.destroy(); // Cleanup the map view
     };
-  }, [longitude, latitude, zoom, iconUrl, title, description, listings]);
+  }, [
+    longitude,
+    latitude,
+    zoom,
+    iconUrl,
+    title,
+    description,
+    listings,
+    selectedOption,
+    showPolygon,
+  ]);
 
-  return <div ref={mapDiv} style={{ height: "512px", width: "100%" }}></div>;
+  return (
+    <>
+      <div className="mt-4 mb-2 flex flex-col gap-4">
+        <div className="flex items-center gap-8">
+          <select
+            className="text-sm block w-1/3 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            value={selectedOption}
+            onChange={(e) => setSelectedOption(e.target.value)}
+          >
+            <option value="0" disabled={!showPolygon}>
+              Hiển thị theo
+            </option>
+            <option value="1" disabled={!showPolygon}>
+              Quận/Huyện
+            </option>
+            <option value="2">Phường/Xã</option>
+          </select>
+          <div className="flex items-center mt-2 gap-4">
+            <Toggle
+              id="show-polygon"
+              defaultChecked={showPolygon}
+              onChange={() => setShowPolygon((prevState) => !prevState)}
+            />
+            <label htmlFor="show-polygon" className="mt-1">
+              Hiển thị khu vực
+            </label>
+          </div>
+        </div>
+        <div className="mt-2">
+          <h2 className="text-lg font-semibold">Biểu tượng</h2>
+          <div className="flex items-center mt-2 gap-4">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/1206/1206312.png"
+              alt="Nhà đất bán"
+              className="w-6 h-6"
+            />
+            <div className="mt-1">Nhà đất bán</div>
+          </div>
+          <div className="flex items-center mt-2 gap-4">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/1299/1299961.png"
+              alt="Nhà đất bán"
+              className="w-6 h-6"
+            />
+            <div className="mt-1">Nhà cho thuê</div>
+          </div>
+        </div>
+      </div>
+      <div ref={mapDiv} style={{ height: "512px", width: "100%" }}></div>
+    </>
+  );
 };
 
 export default ViewOnlyMap;

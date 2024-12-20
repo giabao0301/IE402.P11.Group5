@@ -16,11 +16,12 @@ interface NewPropertyMapProps {
   coordinates?: { longitude: number; latitude: number };
   title?: string;
   description?: string;
-  zoom?: number;
-  iconUrl?: string;
   district?: string;
   ward?: string;
   province?: string;
+  longitude?: number;
+  type?: string;
+  latitude?: number;
 }
 
 const NewPropertyMap: React.FC<NewPropertyMapProps> = ({
@@ -28,11 +29,12 @@ const NewPropertyMap: React.FC<NewPropertyMapProps> = ({
   coordinates,
   title,
   description,
-  zoom = 13,
-  iconUrl,
+  type,
   district,
   ward,
   province,
+  longitude,
+  latitude,
 }) => {
   const locationSelectHandler = (longitude: number, latitude: number) => {
     onSaveSelectedLocation(longitude, latitude);
@@ -57,17 +59,24 @@ const NewPropertyMap: React.FC<NewPropertyMapProps> = ({
       zoom: 14,
     });
 
-    if (coordinates?.latitude && coordinates?.longitude) {
+    if (latitude && longitude) {
       const pointGraphic = new Graphic({
         geometry: new Point({
-          longitude: coordinates?.longitude,
-          latitude: coordinates?.latitude,
+          longitude: longitude,
+          latitude: latitude,
         }),
         symbol: {
-          type: "picture-marker", // Use a picture as the marker symbol
-          url: iconUrl, // URL of the custom icon
-          width: "32px", // Width of the icon
-          height: "32px", // Height of the icon
+          type: "picture-marker", // Use a picture as  the marker symbol
+          url:
+            type === "sale"
+              ? "https://cdn-icons-png.flaticon.com/512/1206/1206312.png"
+              : "https://cdn-icons-png.flaticon.com/512/1299/1299961.png", // URL of the custom icon
+          width: "24px", // Width of the icon
+          height: "24px", // Height of the icon
+          outline: {
+            color: [255, 0, 0, 0.5], // White outline
+            width: 1, // Outline width
+          },
         } as __esri.PictureMarkerSymbolProperties, // Explicit cast to correct type
         attributes: {
           name: title, // Title for the popup
@@ -78,7 +87,10 @@ const NewPropertyMap: React.FC<NewPropertyMapProps> = ({
           content: "{description}",
         },
       });
+      view.graphics.add(pointGraphic);
+    }
 
+    if (coordinates?.latitude && coordinates?.longitude) {
       const graphicsLayer = new GraphicsLayer();
       map.add(graphicsLayer);
 
@@ -107,7 +119,6 @@ const NewPropertyMap: React.FC<NewPropertyMapProps> = ({
       });
 
       // Add the marker to the map view
-      view.graphics.add(pointGraphic);
       view.goTo({
         center: [coordinates.longitude, coordinates.latitude],
       });

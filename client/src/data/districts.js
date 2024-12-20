@@ -1,7 +1,7 @@
 const polygons = [
   {
-    name: "Quận 1",
-    location: "TP. Hồ Chí Minh",
+    district: "Quận 01",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [226, 119, 40, 0.5],
@@ -59,8 +59,8 @@ const polygons = [
     ],
   },
   {
-    name: "Quận 3",
-    location: "TP. Hồ Chí Minh",
+    district: "Quận 03",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [230, 144, 144, 0.5],
@@ -108,8 +108,8 @@ const polygons = [
     ],
   },
   {
-    name: "Quận 4",
-    location: "TP. Hồ Chí Minh",
+    district: "Quận 04",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [144, 230, 144, 0.5],
@@ -151,8 +151,8 @@ const polygons = [
     ],
   },
   {
-    name: "Quận 5",
-    location: "TP. Hồ Chí Minh",
+    district: "Quận 05",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [144, 144, 230, 0.5],
@@ -200,8 +200,8 @@ const polygons = [
     ],
   },
   {
-    name: "Quận 6",
-    location: "TP. Hồ Chí Minh",
+    district: "Quận 06",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [230, 144, 230, 0.5],
@@ -251,8 +251,8 @@ const polygons = [
     ],
   },
   {
-    name: "Quận 7",
-    location: "TP. Hồ Chí Minh",
+    district: "Quận 07",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [230, 230, 144, 0.5],
@@ -334,8 +334,8 @@ const polygons = [
     ],
   },
   {
-    name: "Quận 8",
-    location: "TP. Hồ Chí Minh",
+    district: "Quận 08",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [230, 144, 144, 0.5],
@@ -412,8 +412,8 @@ const polygons = [
     ],
   },
   {
-    name: "Quận 10",
-    location: "TP. Hồ Chí Minh",
+    district: "Quận 10",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [144, 230, 144, 0.5],
@@ -451,8 +451,8 @@ const polygons = [
     ],
   },
   {
-    name: "Quận 11",
-    location: "TP. Hồ Chí Minh",
+    district: "Quận 11",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [144, 144, 230, 0.5],
@@ -496,8 +496,8 @@ const polygons = [
     ],
   },
   {
-    name: "Quận 12",
-    location: "TP. Hồ Chí Minh",
+    district: "Quận 12",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [230, 144, 230, 0.5],
@@ -623,8 +623,8 @@ const polygons = [
     ],
   },
   {
-    name: "Quận Bình Tân",
-    location: "TP. Hồ Chí Minh",
+    district: "Quận Bình Tân",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [230, 230, 144, 0.5],
@@ -720,8 +720,8 @@ const polygons = [
     ],
   },
   {
-    name: "Quận Bình Thạnh",
-    location: "TP. Hồ Chí Minh",
+    district: "Quận Bình Thạnh",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [230, 144, 230, 0.5],
@@ -816,8 +816,8 @@ const polygons = [
     ],
   },
   {
-    name: "Quận Gò Vấp",
-    location: "TP. Hồ Chí Minh",
+    district: "Quận Gò Vấp",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [230, 144, 144, 0.5],
@@ -927,8 +927,8 @@ const polygons = [
     ],
   },
   {
-    name: "Quận Phú Nhuận",
-    location: "TP. Hồ Chí Minh",
+    district: "Quận Phú Nhuận",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [144, 230, 230, 0.5],
@@ -996,8 +996,8 @@ const polygons = [
   },
 
   {
-    name: "Quận Tân Bình",
-    location: "TP. Hồ Chí Minh",
+    district: "Quận Tân Bình",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [144, 144, 230, 0.5],
@@ -1078,8 +1078,8 @@ const polygons = [
   },
 
   {
-    name: "Quận Tân Phú",
-    location: "TP. Hồ Chí Minh",
+    district: "Quận Tân Phú",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [230, 230, 144, 0.5],
@@ -1131,8 +1131,8 @@ const polygons = [
     ],
   },
   {
-    name: "Thành phố Thủ Đức",
-    location: "TP. Hồ Chí Minh",
+    district: "Thành phố Thủ Đức",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [144, 230, 144, 0.5],
@@ -2513,8 +2513,8 @@ const polygons = [
     ],
   },
   {
-    name: "Huyện Bình Chánh",
-    location: "TP. Hồ Chí Minh",
+    district: "Huyện Bình Chánh",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [144, 230, 144, 0.5],
@@ -2790,8 +2790,8 @@ const polygons = [
     ],
   },
   {
-    name: "Huyện Cần Giờ",
-    location: "TP. Hồ Chí Minh",
+    district: "Huyện Cần Giờ",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [255, 0, 0, 0.5],
@@ -2958,8 +2958,8 @@ const polygons = [
     ],
   },
   {
-    name: "Huyện Củ Chi",
-    location: "TP. Hồ Chí Minh",
+    district: "Huyện Củ Chi",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [255, 255, 0, 0.5],
@@ -3166,8 +3166,8 @@ const polygons = [
     ],
   },
   {
-    name: "Huyện Hóc Môn",
-    location: "TP. Hồ Chí Minh",
+    district: "Huyện Hóc Môn",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [0, 255, 0, 0.5],
@@ -3263,8 +3263,8 @@ const polygons = [
     ],
   },
   {
-    name: "Huyện Nhà Bè",
-    location: "TP. Hồ Chí Minh",
+    district: "Huyện Nhà Bè",
+    province: "Thành phố Hồ Chí Minh",
     symbol: {
       type: "simple-fill",
       color: [0, 0, 255, 0.5],
