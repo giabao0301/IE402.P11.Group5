@@ -1,0 +1,165 @@
+.contactPage {
+    display: flex;
+    gap: 50px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  
+    .left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      transform: translateY(500px);
+      animation: fadeIn 0.6s ease forwards;
+  
+      @for $i from 1 through 5 {
+        &:nth-child(#{$i}) {
+          animation-delay: $i * 0.1s;
+        }
+      }
+  
+  
+  
+      h1 {
+        color: #000000;
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 1.4;
+      }
+  
+      p {
+        color: #666;
+        line-height: 1.6;
+      }
+  
+      .contactInfo {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 20px;
+  
+        .item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+  
+          img {
+            width: 24px;
+            height: 24px;
+          }
+  
+          span {
+            color: #333;
+          }
+        }
+      }
+    }
+  
+    .right {
+      flex: 1;
+  
+      .formCard {
+        background-color: #7e755e;
+        padding: 30px;
+        border-radius: 10px;
+        color: rgb(248, 248, 248);
+  
+        p {
+          margin-bottom: 30px;
+        }
+  
+        form {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+  
+          .formRow {
+            display: flex;
+            gap: 20px;
+          }
+  
+          .formGroup {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            
+  
+            label {
+              font-size: 12px;
+              font-weight: 500;
+              color: rgb(255, 255, 255);
+            }
+  
+            input {
+              padding: 12px;
+              border-radius: 5px;
+              border: 1px solid rgb(255, 255, 255);
+              background-color: transparent;
+              color: rgb(255, 255, 255);
+              font-size: 16px;
+  
+              &::placeholder {
+                color: rgba(255, 255, 255, 0.5);
+              }
+  
+              &:focus {
+                outline: none;
+                border-color: white;
+              }
+            }
+          }
+  
+          button {
+            background-color: #1a3b52;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+  
+            &:hover {
+              background-color: #152f41;
+            }
+          }
+  
+          .formGroup {
+            textarea {
+              width: 100%;
+              padding: 12px;
+              border-radius: 5px;
+              border: 1px solid rgba(255, 255, 255, 0.2);
+              background-color: transparent;
+              color: hsl(0, 0%, 100%);
+              font-size: 16px;
+              resize: vertical;
+              min-height: 150px;
+              font-family: inherit;
+  
+              &::placeholder {
+                color: rgba(255, 255, 255, 0.5);
+              }
+  
+              &:focus {
+                outline: none;
+                border-color: white;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .contactPage {
+      flex-direction: column;
+  
+      .right .formCard .formRow {
+        flex-direction: column;
+      }
+    }
+  }

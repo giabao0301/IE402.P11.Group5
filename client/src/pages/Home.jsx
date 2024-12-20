@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import SwiperCore from "swiper";
 import "swiper/css/bundle";
@@ -14,7 +13,7 @@ export default function Home() {
   useEffect(() => {
     const fetchRentListings = async () => {
       try {
-        const res = await fetch("/api/listing/get?type=rent&limit=4");
+        const res = await fetch("/api/listing/get?type=rent&limit=12");
         const data = await res.json();
         setRentListings(data);
         fetchSaleListings();
@@ -25,7 +24,7 @@ export default function Home() {
 
     const fetchSaleListings = async () => {
       try {
-        const res = await fetch("/api/listing/get?type=sale&limit=4");
+        const res = await fetch("/api/listing/get?type=sale&limit=12");
         const data = await res.json();
         setSaleListings(data);
       } catch (error) {

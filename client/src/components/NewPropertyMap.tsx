@@ -155,7 +155,6 @@ const NewPropertyMap: React.FC<NewPropertyMapProps> = ({
       });
 
       // Clear existing graphics and add the new marker
-
       graphicsLayer.removeAll();
       graphicsLayer.add(marker);
 

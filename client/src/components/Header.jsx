@@ -58,6 +58,16 @@ export default function Header() {
               Giới thiệu
             </li>
           </Link>
+          <Link to="/contact">
+            <li className="hidden sm:inline text-slate-700 hover:underline">
+              Liên hệ
+            </li>
+          </Link>
+          <Link to="/agent">
+            <li className="hidden sm:inline text-slate-700 hover:underline">
+              Môi giới
+            </li>
+          </Link>
           <Link to="/profile">
             {currentUser ? (
               <img
