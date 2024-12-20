@@ -32,6 +32,9 @@ export default function CreateListing() {
     longitude: 0,
     latitude: 0,
   });
+  const [district, setDistrict] = useState("");
+  const [ward, setWard] = useState("");
+  const [province, setProvince] = useState("Hồ Chí Minh");
 
   console.log(formData);
 
@@ -179,8 +182,17 @@ export default function CreateListing() {
     }
   };
 
-  const saveSelectedAddressHandler = (coordinates, address) => {
+  const saveSelectedAddressHandler = (
+    coordinates,
+    address,
+    district,
+    ward,
+    province
+  ) => {
     setCoordinates(coordinates);
+    setDistrict(district);
+    setWard(ward);
+    setProvince(province);
     setFormData((prevState) => ({
       ...prevState,
       address: address,
@@ -359,10 +371,9 @@ export default function CreateListing() {
             ))}
           </div>
           <NewPropertyMap
-            title={formData.name}
-            description={formData.address}
-            zoom={15}
-            iconUrl="https://cdn-icons-png.flaticon.com/512/1206/1206312.png"
+            district={district}
+            ward={ward}
+            province={province}
             coordinates={coordinates}
             onSaveSelectedLocation={saveSelectedLocationHandler}
           />

@@ -4,6 +4,11 @@ import MapView from "@arcgis/core/views/MapView";
 import Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
 import "@arcgis/core/assets/esri/themes/light/main.css";
+import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
+import Polygon from "@arcgis/core/geometry/Polygon";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import Color from "@arcgis/core/Color";
+import wards from "../data/wards";
 
 interface ViewOnlyMapProps {
   title: string;
@@ -63,10 +68,36 @@ const ViewOnlyMap: React.FC<ViewOnlyMapProps> = ({
       map: map,
       center: [longitude, latitude], // Center of the map [longitude, latitude]
       zoom: zoom,
+      highlightOptions: {
+        color: new Color([0, 255, 0, 0.5]),
+      },
+    });
+
+    const graphicsLayer = new GraphicsLayer();
+    map.add(graphicsLayer);
+
+    const pointTemplate = {
+      title: "{Ward}",
+      content: "{District}, {Province}",
+    };
+
+    wards.forEach((polygon) => {
+      const graphic = new Graphic({
+        geometry: new Polygon({
+          rings: polygon.rings,
+        }),
+        symbol: polygon.symbol,
+        attributes: {
+          Ward: polygon.ward,
+          District: polygon.district,
+          Province: polygon.province,
+        },
+        popupTemplate: pointTemplate,
+      });
+      graphicsLayer.add(graphic);
     });
 
     for (const listing of listings || []) {
-      // Add a marker with a custom image icon
       const pointGraphic = new Graphic({
         geometry: new Point({
           longitude: listing.longitude,
@@ -78,22 +109,25 @@ const ViewOnlyMap: React.FC<ViewOnlyMapProps> = ({
             listing.type === "sale"
               ? "https://cdn-icons-png.flaticon.com/512/1206/1206312.png"
               : "https://cdn-icons-png.flaticon.com/512/1299/1299961.png", // URL of the custom icon
-          width: "32px", // Width of the icon
-          height: "32px", // Height of the icon
+          width: "24px", // Width of the icon
+          height: "24px", // Height of the icon
+          outline: {
+            color: [255, 0, 0, 0.5], // White outline
+            width: 1, // Outline width
+          },
         } as __esri.PictureMarkerSymbolProperties, // Explicit cast to correct type
         attributes: {
           name: listing.name, // Title for the popup
-          description: listing.address, // Description for the popup
+          description: listing.address,
         },
         popupTemplate: {
           title: "{name}",
           content: "{description}",
         },
       });
-
-      // Add the marker to the map view
       view.graphics.add(pointGraphic);
     }
+
     // Enable clicking on the map for non-graphic locations
     view.on("click", (event) => {
       view.hitTest(event).then((response) => {

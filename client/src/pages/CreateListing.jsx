@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
@@ -32,10 +32,15 @@ export default function CreateListing() {
     longitude: 0,
     latitude: 0,
   });
-
-  console.log(coordinates);
+  const [district, setDistrict] = useState("");
+  const [ward, setWard] = useState("");
+  const [province, setProvince] = useState("Hồ Chí Minh");
 
   console.log(formData);
+
+  useEffect(() => {
+    scrollTo(0, 0);
+  }, []);
 
   const handleChange = (e) => {
     if (e.target.id === "sale" || e.target.id === "rent") {
@@ -116,8 +121,17 @@ export default function CreateListing() {
     }));
   };
 
-  const saveSelectedAddressHandler = (coordinates, address) => {
+  const saveSelectedAddressHandler = (
+    coordinates,
+    address,
+    district,
+    ward,
+    province
+  ) => {
     setCoordinates(coordinates);
+    setDistrict(district);
+    setWard(ward);
+    setProvince(province);
     setFormData((prevState) => ({
       ...prevState,
       address: address,
@@ -272,6 +286,9 @@ export default function CreateListing() {
             onSaveUploadedImages={saveUploadedImagesHandler}
           />
           <NewPropertyMap
+            district={district}
+            ward={ward}
+            province={province}
             coordinates={coordinates}
             onSaveSelectedLocation={saveSelectedLocationHandler}
           />

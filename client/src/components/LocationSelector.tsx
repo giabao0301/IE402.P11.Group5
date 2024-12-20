@@ -33,7 +33,10 @@ type AddressSelectorProps = {
       longitude: string | undefined;
       latitude: string | undefined;
     },
-    address: string
+    address: string,
+    district: string,
+    ward: string,
+    province: string
   ) => void;
   data: Address | null;
 };
@@ -61,9 +64,12 @@ function LocationSelector({
       longitude: string | undefined;
       latitude: string | undefined;
     },
-    address: string
+    address: string,
+    district: string,
+    ward: string,
+    province: string
   ) => {
-    onSaveSelectedAddress(selectedAddress, address);
+    onSaveSelectedAddress(selectedAddress, address, district, ward, province);
   };
 
   useEffect(() => {
@@ -204,7 +210,10 @@ function LocationSelector({
                   ...address,
                   ward:
                     wards.find((w) => w.id === e.target.value)?.full_name || "",
-                })
+                }),
+                address.district,
+                wards.find((w) => w.id === e.target.value)?.full_name || "",
+                address.province
               );
             }
           }}
