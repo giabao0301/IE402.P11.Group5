@@ -45,6 +45,10 @@ const ViewOnlyMap: React.FC<ViewOnlyMapProps> = ({
   const [listings, setListings] = useState<Listing[]>();
   const [selectedOption, setSelectedOption] = useState("0");
   const [showPolygon, setShowPolygon] = useState(false);
+  const [pointTemplate, setPointTemplate] = useState({
+    title: "{District}, {Province}",
+    content: "Việt Nam",
+  });
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -88,7 +92,7 @@ const ViewOnlyMap: React.FC<ViewOnlyMapProps> = ({
             content: "{District}, {Province}",
           };
 
-    const polygons = selectedOption === "1" ? districts : wards;
+    const polygons = selectedOption === "2" ? wards : districts;
 
     polygons.forEach((polygon) => {
       const graphic = new Graphic({
@@ -177,6 +181,22 @@ const ViewOnlyMap: React.FC<ViewOnlyMapProps> = ({
     showPolygon,
   ]);
 
+  const selectChangeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedOption(event.target.value);
+
+    if (event.target.value === "1" || event.target.value === "0") {
+      setPointTemplate({
+        title: "{District}, {Province}",
+        content: "Việt Nam",
+      });
+    } else {
+      setPointTemplate({
+        title: "{Ward}",
+        content: "{District}, {Province}",
+      });
+    }
+  };
+
   return (
     <>
       <div className="mt-4 mb-2 flex flex-col gap-4">
@@ -184,7 +204,7 @@ const ViewOnlyMap: React.FC<ViewOnlyMapProps> = ({
           <select
             className="text-sm block w-1/3 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             value={selectedOption}
-            onChange={(e) => setSelectedOption(e.target.value)}
+            onChange={selectChangeHandler}
           >
             <option value="0" disabled={!showPolygon}>
               Hiển thị theo
